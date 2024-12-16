@@ -3,10 +3,10 @@ name: C++ Build
 on:
   push:
     branches:
-      - main  # Lub inna gałąź, na której chcesz uruchomić kompilację
+      - main  # lub inna gałąź, jeśli używasz innej
   pull_request:
     branches:
-      - main  # Lub inna gałąź, na której chcesz uruchomić kompilację
+      - main  # lub inna gałąź, jeśli używasz innej
 
 jobs:
   build:
@@ -21,14 +21,16 @@ jobs:
         with:
           compiler: g++  # Możesz użyć innego kompilatora, np. clang++
 
-      - name: Install dependencies (jeśli potrzebne)
+      - name: Install dependencies
         run: |
-          sudo apt update
-          sudo apt install -y build-essential
+          sudo apt-get update
+          sudo apt-get install -y build-essential
 
       - name: Compile the code
         run: |
-          g++ -o my_program main.cpp  # Zmień zgodnie z nazwą swojego pliku i programu
+          g++ -o my_program main.cpp  # Zmienna nazwa pliku, jeśli jest inna
 
-      - name: Run tests (jeśli masz testy)
-        run: ./my_program  # Uruchomienie programu po kompilacji
+      - name: Run program
+        run: |
+          ./my_program
+
