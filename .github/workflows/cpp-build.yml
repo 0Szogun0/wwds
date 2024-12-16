@@ -3,10 +3,10 @@ name: C++ Build and Commit Output
 on:
   push:
     branches:
-      - master  # Użyj odpowiedniej gałęzi, jeśli masz inną
+      - master  # Zmieniamy 'main' na 'master'
   pull_request:
     branches:
-      - master
+      - master  # Zmieniamy 'main' na 'master'
 
 jobs:
   build:
@@ -30,10 +30,11 @@ jobs:
           echo "Kompilacja zakończona!" > result.txt  # Tworzy plik 'result.txt'
 
       - name: Commit and push the result file
+        env:
+          GH_TOKEN: ${{ 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 }}  # Token jako sekret
         run: |
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
           git add result.txt
           git commit -m "Add result file after build"
-          git push origin master  # Zatwierdza i wypycha plik 'result.txt' do repozytorium
-
+          git push https://github.com/0Szogun0/wwds.git HEAD:master  # Używamy tokenu do wypchnięcia
