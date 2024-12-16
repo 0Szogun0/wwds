@@ -1,12 +1,12 @@
-name: C++ Build
+name: C++ Build and Commit Output
 
 on:
   push:
     branches:
-      - master  # Użyj tej gałęzi, na której chcesz uruchomić workflow
+      - master  # Użyj odpowiedniej gałęzi, jeśli masz inną
   pull_request:
     branches:
-      - master  # Lub zmień na swoją główną gałąź
+      - master
 
 jobs:
   build:
@@ -23,8 +23,17 @@ jobs:
 
       - name: Compile the code
         run: |
-          g++ -o my_program main.cpp  # Zmienna na inną nazwę pliku, jeśli jest inna
+          g++ -o my_program main.cpp  # Kompiluje plik C++ i tworzy plik 'my_program'
 
-      - name: Run program
+      - name: Create a result file
         run: |
-          ./my_program
+          echo "Kompilacja zakończona!" > result.txt  # Tworzy plik 'result.txt'
+
+      - name: Commit and push the result file
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          git add result.txt
+          git commit -m "Add result file after build"
+          git push origin main  # Zatwierdza i wypycha plik 'result.txt' do repozytorium
+
