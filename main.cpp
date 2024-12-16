@@ -3,5 +3,5 @@
 using namspace std;
 
 int main(){
-  cout << ".." << endl;
+  cout << "..." << endl;
 }
