@@ -3,38 +3,37 @@ name: C++ Build and Commit Output
 on:
   push:
     branches:
-      - master  # Zmieniamy 'main' na 'master'
+      - master  # Upewnij się, że używasz poprawnej gałęzi
   pull_request:
     branches:
-      - master  # Zmieniamy 'main' na 'master'
+      - master
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest  # Używamy Windows jako środowiska
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Install build dependencies
+      - name: Set up MinGW (GCC) compiler
         run: |
-          sudo apt-get update
-          sudo apt-get install -y build-essential
+          choco install mingw  # Instalujemy MinGW, który zawiera kompilator GCC
 
       - name: Compile the code
         run: |
-          g++ -o my_program main.cpp  # Kompiluje plik C++ i tworzy plik 'my_program'
+          g++ -o my_program.exe main.cpp  # Kompiluje plik C++ do pliku .exe
 
       - name: Create a result file
         run: |
-          echo "Kompilacja zakończona!" > result.txt  # Tworzy plik 'result.txt'
+          echo "Kompilacja zakończona!" > result.txt  # Tworzymy plik tekstowy
 
       - name: Commit and push the result file
         env:
-          GH_TOKEN: ${{ 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 }}  # Token jako sekret
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}  # Używamy tokenu do autentykacji
         run: |
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
-          git add result.txt
-          git commit -m "Add result file after build"
-          git push https://github.com/0Szogun0/wwds.git HEAD:master  # Używamy tokenu do wypchnięcia
+          git add my_program.exe result.txt  # Dodajemy plik .exe oraz result.txt
+          git commit -m "Add .exe file after build"
+          git push https://github.com/0Szogun0/wwds.git HEAD:master  # Wypychamy do repozytorium
