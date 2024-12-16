@@ -3,10 +3,10 @@ name: C++ Build
 on:
   push:
     branches:
-      - main  # lub inna gałąź, jeśli używasz innej
+      - master  # Użyj tej gałęzi, na której chcesz uruchomić workflow
   pull_request:
     branches:
-      - main  # lub inna gałąź, jeśli używasz innej
+      - master  # Lub zmień na swoją główną gałąź
 
 jobs:
   build:
@@ -16,21 +16,15 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Set up C++ environment
-        uses: actions/setup-cpp@v1
-        with:
-          compiler: g++  # Możesz użyć innego kompilatora, np. clang++
-
-      - name: Install dependencies
+      - name: Install build dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y build-essential
 
       - name: Compile the code
         run: |
-          g++ -o my_program main.cpp  # Zmienna nazwa pliku, jeśli jest inna
+          g++ -o my_program main.cpp  # Zmienna na inną nazwę pliku, jeśli jest inna
 
       - name: Run program
         run: |
           ./my_program
-
